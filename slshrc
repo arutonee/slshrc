@@ -1,0 +1,32 @@
+(ns-import 'iterator)
+(ns-import 'shell)
+
+(syntax-on)
+
+$(rm "$HOME/.local/share/sl-sh/history")
+
+(hash-set! *repl-settings* :max-history 1000)
+
+(defn __prompt ()
+      (str "\x1b[31m" (last (str-split "/"
+                                       (str-replace (str-trim $PWD)
+                                                    $HOME "~")))
+           "\x1b[34m -> \x1b[0m"))
+
+(alias l  (exa --icons))
+(alias la (exa -a --icons))
+
+(alias hx (helix))
+(alias lg (lazygit))
+(alias e (nvim))
+
+$(export EDITOR "nvim")
+$(export PATH "$PATH:$HOME/.local/bin")
+$(export PATH "$PATH:$HOME/.cargo/bin")
+
+(defn __completion_hook (&rest args)
+  (match (first args)
+         ("cd" :path)
+         ("ls" :default)
+         ("git" :default)
+         (nil :default)))
