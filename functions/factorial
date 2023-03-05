@@ -1,0 +1,8 @@
+; vim: set filetype=lisp:
+
+(defn factorial (n)
+      (defn do-factorial (n total)
+            (if (< n 2)
+              total
+              (do-factorial (- n 1) (* n total))))
+      (do-factorial n 1))

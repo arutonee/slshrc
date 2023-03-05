@@ -1,9 +1,12 @@
+; vim: set syntax=lisp:
+
 (ns-import 'iterator)
 (ns-import 'shell)
 
 (syntax-on)
 
-$(rm "$HOME/.local/share/sl-sh/history")
+(if (fs-exists? "$HOME/.local/share/sl-sh/history")
+    $(rm "$HOME/.local/share/sl-sh/history"))
 
 (hash-set! *repl-settings* :max-history 1000)
 
@@ -20,12 +23,18 @@ $(rm "$HOME/.local/share/sl-sh/history")
 (alias e (nvim))
 
 $(export EDITOR "nvim")
+$(export LFUN "$HOME/.config/sl-sh/functions")
 $(export PATH "$PATH:$HOME/.local/bin")
 $(export PATH "$PATH:$HOME/.cargo/bin")
+
+(defn load-all (args)
+  (for x in (map str
+                 (list 'factorial 'square))
+    (load (str "$LFUN/" x))))
 
 (defn __completion_hook (&rest args)
   (match (first args)
          ("cd" :path)
-         ("ls" :default)
+         ("ls" :path)
          ("git" :default)
          (nil :default)))

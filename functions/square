@@ -1,0 +1,3 @@
+; vim: set syntax=lisp:
+
+(defn square (x) (* x x))
