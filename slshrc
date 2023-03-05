@@ -16,7 +16,6 @@ $(rm "$HOME/.local/share/sl-sh/history")
 (alias l  (exa --icons))
 (alias la (exa -a --icons))
 
-(alias hx (helix))
 (alias lg (lazygit))
 (alias e (nvim))
 
